@@ -3,6 +3,8 @@
 import { CharacterCard } from "@/components/CharacterCard";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
+import { Brain, User } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 const characters = [
   {
@@ -17,8 +19,8 @@ const characters = [
   },
   {
     id: "3",
-    name: "Paul Tudor Jones",
-    image: "/paul.png",
+    name: "Takashi Kotegawa",
+    image: "/takashi.webp",
   },
   {
     id: "4",
@@ -28,6 +30,7 @@ const characters = [
 ];
 
 export default function Home() {
+  const router = useRouter(); // <-- Move this hook to the top level of the component
   const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
 
   const handleSelect = (id: string) => {
@@ -42,13 +45,33 @@ export default function Home() {
     const selectedNames = characters
       .filter((char) => selectedCharacters.includes(char.id))
       .map((char) => char.name);
-    alert(`Selected characters: ${selectedNames.join(", ")}`);
+
+      const params = new URLSearchParams();
+      selectedNames.forEach((name) => params.append("names", name));
+
+      router.push(`/trade?${params.toString()}`);
   };
 
   return (
     <main className="min-h-screen bg-black">
+      <nav className="border-b text-white">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Brain className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold">DeepTrade</span>
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost">
+              <User className="h-5 w-5 mr-2" />
+              Account
+            </Button>
+          </div>
+        </div>
+      </nav>
       <div className="container mx-auto py-8 px-4">
-        <h1 className="text-4xl font-bold mb-8 text-center text-white">Select Your Characters</h1>
+        <h1 className="text-4xl font-bold mb-8 text-center text-white">
+          Select Your Characters
+        </h1>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {characters.map((character) => (
             <CharacterCard
