@@ -12,9 +12,23 @@ interface InvestorProfileProps {
 }
 
 export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
-  const { buffett, soros } = useAgent();
-  const displayData = selectedInvestor === "Warren Buffett" ? buffett : soros;
-
+  const { buffett, soros, kotegawa, siebert } = useAgent();
+  
+  const displayData = (() => {
+    switch (selectedInvestor) {
+      case "Warren Buffett":
+        return buffett;
+      case "George Soros":
+        return soros;
+      case "Takashi Kotegawa":
+        return kotegawa;
+      case "Muriel Siebert":
+        return siebert;
+      default:
+        return buffett; // Handle cases where no match is found
+    }
+  })();
+  
   return (
     <Card>
       <CardHeader>

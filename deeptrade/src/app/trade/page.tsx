@@ -96,7 +96,10 @@ export default function Home() {
             <span className="text-xl font-bold">DeepTrade</span>
           </div>
           <div className="flex items-center space-x-4">
-            <InvestorSelector investors={investors} onInvestorChange={handleInvestorChange} />
+            <InvestorSelector 
+              investors={investors.filter(investor => selectedNames.includes(investor.name))} 
+              onInvestorChange={handleInvestorChange} 
+            />
             <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
               Next Quarter
             </Button>
