@@ -1,101 +1,75 @@
-import Image from "next/image";
+"use client";
+
+import { CharacterCard } from "@/components/CharacterCard";
+import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+const characters = [
+  {
+    id: "1",
+    name: "Warren Buffett",
+    image: "/warren.webp",
+  },
+  {
+    id: "2",
+    name: "George Soros",
+    image: "/george.jpg",
+  },
+  {
+    id: "3",
+    name: "Paul Tudor Jones",
+    image: "/paul.png",
+  },
+  {
+    id: "4",
+    name: "Muriel Siebert",
+    image: "/muriel.jpg",
+  },
+];
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  const [selectedCharacters, setSelectedCharacters] = useState<string[]>([]);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  const handleSelect = (id: string) => {
+    setSelectedCharacters((prev) =>
+      prev.includes(id)
+        ? prev.filter((charId) => charId !== id)
+        : [...prev, id]
+    );
+  };
+
+  const handleConfirm = () => {
+    const selectedNames = characters
+      .filter((char) => selectedCharacters.includes(char.id))
+      .map((char) => char.name);
+    alert(`Selected characters: ${selectedNames.join(", ")}`);
+  };
+
+  return (
+    <main className="min-h-screen bg-black">
+      <div className="container mx-auto py-8 px-4">
+        <h1 className="text-4xl font-bold mb-8 text-center text-white">Select Your Characters</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+          {characters.map((character) => (
+            <CharacterCard
+              key={character.id}
+              {...character}
+              isSelected={selectedCharacters.includes(character.id)}
+              onSelect={handleSelect}
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          ))}
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+        <div className="flex justify-center">
+          <Button
+            onClick={handleConfirm}
+            disabled={selectedCharacters.length === 0}
+            className="px-8 py-6 text-lg bg-gray-100 hover:bg-gray-100 text-black"
+            color="white"
+          >
+            Confirm Selection ({selectedCharacters.length})
+          </Button>
+        </div>
+      </div>
+    </main>
   );
 }
