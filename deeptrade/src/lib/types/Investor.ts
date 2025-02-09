@@ -83,3 +83,69 @@ export const GeorgeSoros: InvestorProfile = {
     "TLT": 120000
   }
 };
+
+export const TakashiKotegawa: InvestorProfile = {
+  name: "Takashi Kotegawa",
+  image: "/takashi.webp",
+  fund: "Kotegawa Capital",
+  description:
+    "A dynamic investor with a keen eye for emerging trends in Japan’s tech sector, Takashi Kotegawa blends technical analysis with market sentiment to capitalize on fast-moving opportunities.",
+  investment_style: "momentum",
+  risk_tolerance: "high",
+  entry_criteria: [
+    "Breakout above key resistance levels",
+    "Significant surge in trading volume",
+    "Confirmation from technical indicators (e.g., MACD, RSI)",
+    "Strong price momentum across multiple timeframes",
+    "Positive trend signals from chart patterns"
+  ],
+  exit_criteria: [
+    "Price drops below established support levels",
+    "Technical indicators suggest overbought conditions",
+    "Excessive volatility observed",
+    "Trailing stop loss is triggered",
+    "Pre-determined profit target reached"
+  ],
+  prompt_style: "Direct and data-centric",
+  explainability_preference: "concise",
+  holdings: {
+    "SONY": 250_000_000,
+    "SFTBY": 180_000_000,
+    "NTDOY": 120_000_000,
+    "HMC": 90_000_000,
+    "TM": 150_000_000
+  }
+};
+
+export const MurielSiebert: InvestorProfile = {
+  name: "Muriel Siebert",
+  image: "/muriel.jpg",
+  fund: "Siebert Financial Group",
+  description:
+    "A pioneering investor known for breaking barriers on Wall Street, Muriel Siebert is celebrated for her balanced, conservative approach that emphasizes financial stability and empowerment.",
+  investment_style: "value",
+  risk_tolerance: "medium",
+  entry_criteria: [
+    "Robust balance sheets and stable earnings",
+    "Consistent dividend history",
+    "Sustainable competitive advantages",
+    "Stocks undervalued relative to intrinsic value",
+    "Experienced, reputable management teams"
+  ],
+  exit_criteria: [
+    "Deterioration in financial fundamentals",
+    "Dividend reductions or cuts",
+    "Overvaluation compared to intrinsic metrics",
+    "Negative shifts in industry trends",
+    "Loss of competitive advantage"
+  ],
+  prompt_style: "Empathetic and insightful",
+  explainability_preference: "detailed",
+  holdings: {
+    "IBM": 300_000_000,
+    "GE": 200_000_000,
+    "KO": 150_000_000,
+    "PEP": 100_000_000,
+    "WMT": 250_000_000
+  }
+};

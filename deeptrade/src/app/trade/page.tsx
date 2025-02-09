@@ -8,6 +8,8 @@ import { AssetGraph } from "@/components/asset-graph";
 import { 
   WarrenBuffett, 
   GeorgeSoros,
+  TakashiKotegawa,
+  MurielSiebert,
   type InvestorProfile as InvestorProfileType 
 } from "@/lib/types/Investor";
 import { useRouter, useSearchParams } from "next/navigation";
@@ -45,6 +47,18 @@ export default function Home() {
       name: GeorgeSoros.name,
       image: GeorgeSoros.image,
       profile: GeorgeSoros
+    },
+    {
+      id: "kotegawa",
+      name: TakashiKotegawa.name,
+      image: TakashiKotegawa.image,
+      profile: TakashiKotegawa
+    },
+    {
+      id: "siebert",
+      name: MurielSiebert.name,
+      image: MurielSiebert.image,
+      profile: MurielSiebert
     }
   ];
 
