@@ -15,8 +15,8 @@ export type InvestorProfile = {
   description: string;
   investment_style: InvestmentStyle;
   risk_tolerance: RiskTolerance;
-  entry_criteria: string[];
-  exit_criteria: string[];
+  entry_criteria: string;
+  exit_criteria: string;
   prompt_style: string;
   explainability_preference: ExplainabilityPreference;
   holdings: Holdings;
@@ -29,19 +29,8 @@ export const WarrenBuffett: InvestorProfile = {
   description: "A disciplined value investor seeking undervalued companies with strong fundamentals.",
   investment_style: "value",
   risk_tolerance: "medium",
-  entry_criteria: [
-    "P/E ratio below industry average",
-    "Positive free cash flow",
-    "Strong competitive moat",
-    "Consistent earnings growth",
-    "Quality management team",
-  ],
-  exit_criteria: [
-    "Stock price reaches target price",
-    "P/E ratio exceeds industry average",
-    "Deteriorating fundamentals",
-    "Management changes that raise concerns",
-  ],
+  entry_criteria: "P/E ratio below industry average, positive free cash flow, strong competitive moat, consistent earnings growth, quality management team",
+  exit_criteria: "Stock price reaches target price, P/E ratio exceeds industry average, deteriorating fundamentals, management changes that raise concerns",
   prompt_style: "Formal and analytical",
   explainability_preference: "detailed",
   holdings: {
@@ -60,19 +49,8 @@ export const GeorgeSoros: InvestorProfile = {
   description: "A global macro investor seeking to profit from market inefficiencies.",
   investment_style: "global_macro",
   risk_tolerance: "high",
-  entry_criteria: [
-    "Political and economic events creating opportunities",
-    "Market dislocations",
-    "Currency imbalances",
-    "Macro trend identification",
-    "Asymmetric risk-reward setups",
-  ],
-  exit_criteria: [
-    "Market conditions change",
-    "Geopolitical tensions escalate",
-    "Position thesis invalidation",
-    "Risk-reward ratio deteriorates",
-  ],
+  entry_criteria: "Political and economic events creating opportunities, market dislocations, currency imbalances, macro trend identification, asymmetric risk-reward setups",
+  exit_criteria: "Market conditions change, geopolitical tensions escalate, position thesis invalidation, risk-reward ratio deteriorates",
   prompt_style: "Conversational and strategic",
   explainability_preference: "concise",
   holdings: {
@@ -89,23 +67,11 @@ export const TakashiKotegawa: InvestorProfile = {
   image: "/takashi.webp",
   fund: "Kotegawa Capital",
   description:
-    "A dynamic investor with a keen eye for emerging trends in Japan’s tech sector, Takashi Kotegawa blends technical analysis with market sentiment to capitalize on fast-moving opportunities.",
+    "A dynamic investor with a keen eye for emerging trends in Japan's tech sector, Takashi Kotegawa blends technical analysis with market sentiment to capitalize on fast-moving opportunities.",
   investment_style: "momentum",
   risk_tolerance: "high",
-  entry_criteria: [
-    "Breakout above key resistance levels",
-    "Significant surge in trading volume",
-    "Confirmation from technical indicators (e.g., MACD, RSI)",
-    "Strong price momentum across multiple timeframes",
-    "Positive trend signals from chart patterns"
-  ],
-  exit_criteria: [
-    "Price drops below established support levels",
-    "Technical indicators suggest overbought conditions",
-    "Excessive volatility observed",
-    "Trailing stop loss is triggered",
-    "Pre-determined profit target reached"
-  ],
+  entry_criteria: "Breakout above key resistance levels, significant surge in trading volume, confirmation from technical indicators (e.g., MACD, RSI), strong price momentum across multiple timeframes, positive trend signals from chart patterns",
+  exit_criteria: "Price drops below established support levels, technical indicators suggest overbought conditions, excessive volatility observed, trailing stop loss is triggered, pre-determined profit target reached",
   prompt_style: "Direct and data-centric",
   explainability_preference: "concise",
   holdings: {
@@ -125,20 +91,8 @@ export const MurielSiebert: InvestorProfile = {
     "A pioneering investor known for breaking barriers on Wall Street, Muriel Siebert is celebrated for her balanced, conservative approach that emphasizes financial stability and empowerment.",
   investment_style: "value",
   risk_tolerance: "medium",
-  entry_criteria: [
-    "Robust balance sheets and stable earnings",
-    "Consistent dividend history",
-    "Sustainable competitive advantages",
-    "Stocks undervalued relative to intrinsic value",
-    "Experienced, reputable management teams"
-  ],
-  exit_criteria: [
-    "Deterioration in financial fundamentals",
-    "Dividend reductions or cuts",
-    "Overvaluation compared to intrinsic metrics",
-    "Negative shifts in industry trends",
-    "Loss of competitive advantage"
-  ],
+  entry_criteria: "Robust balance sheets and stable earnings, consistent dividend history, sustainable competitive advantages, stocks undervalued relative to intrinsic value, experienced, reputable management teams",
+  exit_criteria: "Deterioration in financial fundamentals, dividend reductions or cuts, overvaluation compared to intrinsic metrics, negative shifts in industry trends, loss of competitive advantage",
   prompt_style: "Empathetic and insightful",
   explainability_preference: "detailed",
   holdings: {

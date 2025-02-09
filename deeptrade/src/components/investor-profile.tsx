@@ -49,7 +49,6 @@ export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
 
             {/* Current Holdings - Right Side */}
             <div className="md:col-span-6 space-y-3">
-              <h4 className="text-sm font-semibold">Current Holdings</h4>
               <div className="space-y-2 bg-muted/30 p-3 rounded-lg">
                 {Object.entries(displayData.holdings).map(([symbol, shares]) => (
                   <div
@@ -65,30 +64,8 @@ export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
               </div>
             </div>
           </div>
-
-          {/* Investment Criteria */}
-          <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Entry Criteria</h4>
-                <ul className="space-y-2">
-                  {displayData.entry_criteria.map((criterion, index) => (
-                    <li key={index} className="text-sm text-muted-foreground">• {criterion}</li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h4 className="text-lg font-semibold mb-3">Exit Criteria</h4>
-                <ul className="space-y-2">
-                  {displayData.exit_criteria.map((criterion, index) => (
-                    <li key={index} className="text-sm text-muted-foreground">• {criterion}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
         </div>
       </CardContent>
     </Card>
   );
-} 
+}

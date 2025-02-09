@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
-import { Brain, User, Loader2 } from "lucide-react";
+import { Tabs, TabsContent} from "@/components/ui/tabs";
+import { Brain, Loader2 } from "lucide-react";
 import { InvestorProfile } from "@/components/investor-profile";
 import { AssetGraph } from "@/components/asset-graph";
 import { 
@@ -15,6 +15,9 @@ import {
 } from "@/lib/types/Investor";
 import { useSearchParams } from "next/navigation";
 import { InvestorSelector } from "@/components/investor-selector";
+import PieChart from "../../components/PieCahrt";
+
+
 // Sample data for the graph (keep this until you have real data)
 const graphData = [
   { time: "09:00", value: 4000 },
@@ -85,47 +88,45 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-        {/* Navigation */}
-        <nav className="border-b">
-          <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-            <div className="flex items-center space-x-2">
-              <Brain className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">DeepTrade</span>
-            </div>
-            <div className="flex items-center space-x-4">
-              <InvestorSelector 
-                investors={investors} 
-                onInvestorChange={handleInvestorChange} 
-              />
-              <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
-                Next Quarter
-              </Button>
-            </div>
+      {/* Navigation */}
+      <nav className="border-b">
+        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center space-x-2">
+            <Brain className="h-6 w-6 text-primary" />
+            <span className="text-xl font-bold">DeepTrade</span>
           </div>
-        </nav>
-
-        {/* Main Content */}
-        <div className={`transition-all duration-500 ${loading ? 'blur-md' : 'blur-0'}`}>
-          <main className="container mx-auto px-4 py-8">
-            <Tabs defaultValue={investors[0].id} className="space-y-8">
-              {/* Asset Graph */}
-              <AssetGraph data={graphData} />
-
-              {/* Investor Profile Cards */}
-              {investors.map((investor) => (
-                <TabsContent key={investor.id} value={investor.id}>
-                  <InvestorProfile selectedInvestor={selectedInvestor} />
-                </TabsContent>
-              ))}
-            </Tabs>
-          </main>
+          <div className="flex items-center space-x-4">
+            <InvestorSelector investors={investors} onInvestorChange={handleInvestorChange} />
+            <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
+              Next Quarter
+            </Button>
+          </div>
         </div>
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 ${
-            loading ? "opacity-100" : "opacity-0 pointer-events-none"
-          }`}>
-          <Loader2 className="h-10 w-10 animate-spin text-black" />
-        </div>
-      </div>   
+      </nav>
+
+      {/* Main Content */}
+      <div className={`transition-all duration-500 ${loading ? "blur-md" : "blur-0"}`}>
+        <main className="container mx-auto px-4 py-8">
+          <Tabs defaultValue={investors[0].id} className="space-y-8">
+            {/* Asset Graph */}
+            <AssetGraph data={graphData} />
+            <PieChart investor_name={selectedInvestor} />
+            {/* Investor Profile Cards */}
+            {investors.map((investor) => (
+              <TabsContent key={investor.id} value={investor.id}>
+                <InvestorProfile selectedInvestor={selectedInvestor} />
+              </TabsContent>
+            ))}
+          </Tabs>
+        </main>
+      </div>
+      <div
+        className={`fixed inset-0 z-50 flex items-center justify-center transition-opacity duration-500 ${
+          loading ? "opacity-100" : "opacity-0 pointer-events-none"
+        }`}
+      >
+        <Loader2 className="h-10 w-10 animate-spin text-black" />
+      </div>
+    </div>
   );
 }
