@@ -94,7 +94,7 @@ export default function Home() {
             </div>
             <div className="flex items-center space-x-4">
               <InvestorSelector 
-                investors={investors} 
+                investors={investors.filter(investor => selectedNames.includes(investor.name))} 
                 onInvestorChange={handleInvestorChange} 
               />
               <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
