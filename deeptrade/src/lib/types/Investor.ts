@@ -1,12 +1,12 @@
 export type Holdings = {
-  [key: string]: number;  // Symbol: Number of shares
+  [key: string]: number; // Symbol: Number of shares
 };
 
-export type RiskTolerance = 'low' | 'medium' | 'high' | 'aggressive';
+export type RiskTolerance = "low" | "medium" | "high" | "aggressive";
 
-export type InvestmentStyle = 'value' | 'growth' | 'momentum' | 'quantitative' | 'technical' | 'global_macro';
+export type InvestmentStyle = "value" | "growth" | "momentum" | "quantitative" | "technical" | "global_macro";
 
-export type ExplainabilityPreference = 'detailed' | 'concise' | 'technical' | 'simple';
+export type ExplainabilityPreference = "detailed" | "concise" | "technical" | "simple";
 
 export type InvestorProfile = {
   name: string;
@@ -34,23 +34,23 @@ export const WarrenBuffett: InvestorProfile = {
     "Positive free cash flow",
     "Strong competitive moat",
     "Consistent earnings growth",
-    "Quality management team"
+    "Quality management team",
   ],
   exit_criteria: [
     "Stock price reaches target price",
     "P/E ratio exceeds industry average",
     "Deteriorating fundamentals",
-    "Management changes that raise concerns"
+    "Management changes that raise concerns",
   ],
   prompt_style: "Formal and analytical",
   explainability_preference: "detailed",
   holdings: {
-    "AAPL": 915_228_702,
-    "BAC": 1_032_852_006,
-    "KO": 400_000_000,
-    "AXP": 151_610_700,
-    "MOAT": 0
-  }
+    AAPL: 915_228_702,
+    BAC: 1_032_852_006,
+    KO: 400_000_000,
+    AXP: 151_610_700,
+    MOAT: 0,
+  },
 };
 
 export const GeorgeSoros: InvestorProfile = {
@@ -65,21 +65,21 @@ export const GeorgeSoros: InvestorProfile = {
     "Market dislocations",
     "Currency imbalances",
     "Macro trend identification",
-    "Asymmetric risk-reward setups"
+    "Asymmetric risk-reward setups",
   ],
   exit_criteria: [
     "Market conditions change",
     "Geopolitical tensions escalate",
     "Position thesis invalidation",
-    "Risk-reward ratio deteriorates"
+    "Risk-reward ratio deteriorates",
   ],
   prompt_style: "Conversational and strategic",
   explainability_preference: "concise",
   holdings: {
-    "SPY": 100000,
-    "EEM": 200000,
-    "GLD": 150000,
-    "FXE": 180000,
-    "TLT": 120000
-  }
+    SPY: 100000,
+    EEM: 200000,
+    GLD: 150000,
+    FXE: 180000,
+    TLT: 120000,
+  },
 };
