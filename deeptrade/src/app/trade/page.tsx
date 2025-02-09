@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import { Brain, User } from "lucide-react";
 import { InvestorProfile } from "@/components/investor-profile";
 import { AssetGraph } from "@/components/asset-graph";
@@ -10,6 +10,7 @@ import {
   GeorgeSoros,
   type InvestorProfile as InvestorProfileType 
 } from "@/lib/types/Investor";
+import { useRouter, useSearchParams } from "next/navigation";
 
 // Sample data for the graph (keep this until you have real data)
 const graphData = [
@@ -46,6 +47,10 @@ export default function Home() {
       profile: GeorgeSoros
     }
   ];
+
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const selectedNames = searchParams.getAll("names");
 
   return (
     <div className="min-h-screen bg-background">
@@ -88,6 +93,23 @@ export default function Home() {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue={investors[0].id} className="space-y-8">
+          {/* Investor Selector */}
+          <div className="flex justify-end">
+            <TabsList className="inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground">
+              {investors
+                .filter(investor => selectedNames.includes(investor.name))
+                .map((investor) => (
+                <TabsTrigger
+                  key={investor.id}
+                  value={investor.id.toString()}
+                  className="inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-sm"
+                >
+                  <img src={investor.image} alt={investor.name} className="w-6 h-6 rounded-full object-cover mr-2" />
+                  <span className="hidden sm:inline">{investor.name.split(" ")[0]}</span>
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </div>
           {/* Asset Graph */}
           <AssetGraph data={graphData} />
 
