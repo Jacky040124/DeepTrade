@@ -2,21 +2,22 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent} from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Brain, Loader2 } from "lucide-react";
 import { InvestorProfile } from "@/components/investor-profile";
 import { AssetGraph } from "@/components/asset-graph";
-import { 
-  WarrenBuffett, 
+import {
+  WarrenBuffett,
   GeorgeSoros,
   TakashiKotegawa,
   MurielSiebert,
-  type InvestorProfile as InvestorProfileType 
+  type InvestorProfile as InvestorProfileType,
 } from "@/lib/types/Investor";
 import { useSearchParams } from "next/navigation";
 import { InvestorSelector } from "@/components/investor-selector";
 import PieChart from "../../components/PieCahrt";
-
+import { getPortfolioRecommendations } from "../action";
+import { incrementQuarter } from "@/lib/utils/date";
 
 // Sample data for the graph (keep this until you have real data)
 const graphData = [
@@ -44,46 +45,46 @@ export default function Home() {
       id: "buffett",
       name: WarrenBuffett.name,
       image: WarrenBuffett.image,
-      profile: WarrenBuffett
+      profile: WarrenBuffett,
     },
     {
       id: "soros",
       name: GeorgeSoros.name,
       image: GeorgeSoros.image,
-      profile: GeorgeSoros
+      profile: GeorgeSoros,
     },
     {
       id: "kotegawa",
       name: TakashiKotegawa.name,
       image: TakashiKotegawa.image,
-      profile: TakashiKotegawa
+      profile: TakashiKotegawa,
     },
     {
       id: "siebert",
       name: MurielSiebert.name,
       image: MurielSiebert.image,
-      profile: MurielSiebert
-    }
+      profile: MurielSiebert,
+    },
   ];
+
+  const stock_list = ["AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "META"];
   const [selectedInvestor, setSelectedInvestor] = useState<string>(investors[0].name);
+  const [quarter, setQuarter] = useState<string>("2020-Q1");
+  const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const selectedNames = searchParams.getAll("names");
-  
+
   const handleInvestorChange = (investor: InvestorDisplay) => {
     setSelectedInvestor(investor.name);
   };
 
-  const [loading, setLoading] = useState(false);
-
   async function handleNextQuarter() {
     setLoading(true);
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-    } catch (error) {
-      console.error("Error executing next quarter action:", error);
-    } finally {
-      setLoading(false);
-    }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setQuarter(incrementQuarter(quarter));
+    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000, stock_list);
+    console.log(recommendations);
+    setLoading(false);
   }
 
   return (
@@ -94,11 +95,12 @@ export default function Home() {
           <div className="flex items-center space-x-2">
             <Brain className="h-6 w-6 text-primary" />
             <span className="text-xl font-bold">DeepTrade</span>
+            <span className="text-sm text-muted-foreground ml-4">{quarter}</span>
           </div>
           <div className="flex items-center space-x-4">
-            <InvestorSelector 
-              investors={investors.filter(investor => selectedNames.includes(investor.name))} 
-              onInvestorChange={handleInvestorChange} 
+            <InvestorSelector
+              investors={investors.filter((investor) => selectedNames.includes(investor.name))}
+              onInvestorChange={handleInvestorChange}
             />
             <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
               Next Quarter
@@ -111,14 +113,14 @@ export default function Home() {
       <div className={`transition-all duration-500 ${loading ? "blur-md" : "blur-0"}`}>
         <main className="container mx-auto px-4 py-4">
           <Tabs defaultValue={investors[0].id} className="space-y-4">
-          <div className="flex gap-4">
-            <div className="flex-[4]">
-              <AssetGraph data={graphData} />
+            <div className="flex gap-4">
+              <div className="flex-[4]">
+                <AssetGraph data={graphData} />
+              </div>
+              <div className="flex-[1]">
+                <PieChart investor_name={selectedInvestor} />
+              </div>
             </div>
-            <div className="flex-[1]">
-              <PieChart investor_name={selectedInvestor} />
-            </div>
-          </div>
 
             {investors.map((investor) => (
               <TabsContent key={investor.id} value={investor.id}>

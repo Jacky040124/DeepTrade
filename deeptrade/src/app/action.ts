@@ -15,19 +15,21 @@ type PortfolioRecommendation = {
   analysis: string;
   risks: string[];
   portfolio_impact: string;
-  cash_after_transactions: string;
+  cash_after_transactions: number;
 };
 
 // I wan to trade at 2020-1-1
 // role is the first_last name of the investor all lowercase
 export async function getPortfolioRecommendations(date: string, role : string, fund: number, stock_list: string[]): Promise<PortfolioRecommendation> {
-    // stab
+
+    console.log(date, role, fund, stock_list);
+    
     return {
         recommendations: [],
         key_metrics: [],
         analysis: "",
         risks: [],
         portfolio_impact: "",
-        cash_after_transactions: ""
+        cash_after_transactions: 0
     }
 }
