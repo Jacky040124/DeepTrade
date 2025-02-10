@@ -20,9 +20,10 @@ type PortfolioRecommendation = {
 
 // I wan to trade at 2020-1-1
 // role is the first_last name of the investor all lowercase
-export async function getPortfolioRecommendations(date: string, role : string, fund: number, stock_list: string[]): Promise<PortfolioRecommendation> {
+export async function getPortfolioRecommendations(date: string, role : string, fund: number): Promise<PortfolioRecommendation> {
+    // const response = await fetch(`https://deeptrade-api.onrender.com/recommendations?date=${date}&role=${role}&fund=${fund}`);
 
-    console.log(date, role, fund, stock_list);
+    console.log(date, role, fund);
     
     return {
         recommendations: [],

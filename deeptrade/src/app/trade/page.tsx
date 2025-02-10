@@ -67,7 +67,6 @@ export default function Home() {
     },
   ];
 
-  const stock_list = ["AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "META"];
   const [selectedInvestor, setSelectedInvestor] = useState<string>(investors[0].name);
   const [quarter, setQuarter] = useState<string>("2020-Q1");
   const [loading, setLoading] = useState(false);
@@ -82,7 +81,7 @@ export default function Home() {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setQuarter(incrementQuarter(quarter));
-    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000, stock_list);
+    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000);
     console.log(recommendations);
     setLoading(false);
   }
