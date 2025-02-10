@@ -11,6 +11,9 @@ import {
   GeorgeSoros,
   TakashiKotegawa,
   MurielSiebert,
+  BillAckman,
+  MichaelBurry,
+  BillHwang,
   type InvestorProfile as InvestorProfileType,
 } from "@/lib/types/Investor";
 import { useSearchParams } from "next/navigation";
@@ -65,8 +68,27 @@ export default function Home() {
       image: MurielSiebert.image,
       profile: MurielSiebert,
     },
+    {
+      id: "ackman",
+      name: BillAckman.name,
+      image: BillAckman.image,
+      profile: BillAckman,
+    },
+    {
+      id: "burry",
+      name: MichaelBurry.name,
+      image: MichaelBurry.image,
+      profile: MichaelBurry,
+    },
+    {
+      id: "hwang",
+      name: BillHwang.name,
+      image: BillHwang.image,
+      profile: BillHwang,
+    },
   ];
 
+  const stock_list = ["AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "META"];
   const [selectedInvestor, setSelectedInvestor] = useState<string>(investors[0].name);
   const [quarter, setQuarter] = useState<string>("2020-Q1");
   const [loading, setLoading] = useState(false);

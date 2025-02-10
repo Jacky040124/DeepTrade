@@ -6,25 +6,44 @@ import { useState } from "react";
 import { Brain, User } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useAgent } from "./hooks/useAgent";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import CharacteristicsRadarChart from "@/components/RadarChart";
 
 export default function Home() {
-  const { buffett, soros, kotegawa, siebert } = useAgent();
+  const { buffett, soros, ackman, burry, hwang } = useAgent();
   const router = useRouter();
+
+  // State for tracking selected investors
   const [selectedInvestor, setSelectedInvestor] = useState<string[]>([]);
+  // State for tracking the most recently clicked investor
+  const [currentInvestor, setCurrentInvestor] = useState<{
+    name: string;
+    image: string;
+    // include any other properties your investor objects have
+  } | null>(null);
 
   const handleSelect = (id: string) => {
+    // Toggle selection of the investor
     setSelectedInvestor((prev) =>
       prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]
     );
+
+    // Update currentInvestor with the investor data that matches the id
+    const investor = [buffett, soros, ackman, burry, hwang].find(
+      (investor) => investor.name === id
+    );
+    if (investor) {
+      setCurrentInvestor(investor);
+    }
   };
 
   const handleContinue = () => {
-    const selectedNames = [buffett, soros, kotegawa, siebert]
-      .filter(investor => selectedInvestor.includes(investor.name))
-      .map(investor => investor.name);
-    
+    const selectedNames = [buffett, soros, ackman, burry, hwang]
+      .filter((investor) => selectedInvestor.includes(investor.name))
+      .map((investor) => investor.name);
+
     const searchParams = new URLSearchParams();
-    selectedNames.forEach(name => searchParams.append('names', name));
+    selectedNames.forEach((name) => searchParams.append("names", name));
     router.push(`/trade?${searchParams.toString()}`);
   };
 
@@ -38,9 +57,20 @@ export default function Home() {
       </nav>
 
       <div className="container mx-auto px-4 py-8">
-        <h1 className="text-4xl font-bold mb-8">Choose Your Investors</h1>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {[buffett, soros, kotegawa, siebert].map((investor) => (
+        <div className="flex items-center justify-between pb-8">
+          <h1 className="text-4xl font-bold">Choose Your Investors</h1>
+          <Button
+            onClick={handleContinue}
+            disabled={selectedInvestor.length === 0}
+            className="flex items-center"
+          >
+            Continue
+            <User className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+          {[buffett, soros, ackman, burry, hwang].map((investor) => (
             <CharacterCard
               key={investor.name}
               id={investor.name}
@@ -52,16 +82,17 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="mt-8 flex justify-end">
-          <Button
-            onClick={handleContinue}
-            disabled={selectedInvestor.length === 0}
-            className="flex items-center"
-          >
-            Continue
-            <User className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
+        {/* Display details of the most recently clicked investor */}
+        {currentInvestor && (
+          <Card className="mt-8">
+            <CardHeader>
+              <CardTitle>{currentInvestor.name}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <CharacteristicsRadarChart investor_name={currentInvestor.name}></CharacteristicsRadarChart>
+            </CardContent>
+          </Card>
+        )}
       </div>
     </main>
   );

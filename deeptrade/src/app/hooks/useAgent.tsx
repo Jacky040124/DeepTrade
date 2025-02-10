@@ -1,13 +1,14 @@
 "use client";
 
-import { WarrenBuffett as BuffettProfile, GeorgeSoros as SorosProfile, TakashiKotegawa as KotegawaProfile, MurielSiebert as SiebertProfile, type InvestorProfile } from "../../lib/types/Investor";
+import { WarrenBuffett as BuffettProfile, GeorgeSoros as SorosProfile, TakashiKotegawa as KotegawaProfile, MurielSiebert as SiebertProfile, BillAckman as AckmanProfile, MichaelBurry as BurryProfile, BillHwang as HwangProfile, type InvestorProfile } from "../../lib/types/Investor";
 import { createContext, useState, useContext } from "react";
 
 type AgentContextType = {
     buffett: InvestorProfile;
     soros: InvestorProfile;
-    kotegawa: InvestorProfile;
-    siebert: InvestorProfile;
+    ackman: InvestorProfile;
+    burry: InvestorProfile;
+    hwang: InvestorProfile;
 }
 
 export const AgentContext = createContext<AgentContextType | null>(null);
@@ -15,11 +16,13 @@ export const AgentContext = createContext<AgentContextType | null>(null);
 export function AgentProvider({ children }: { children: React.ReactNode }) {
     const [buffett, setBuffett] = useState<InvestorProfile>(BuffettProfile);
     const [soros, setSoros] = useState<InvestorProfile>(SorosProfile);
-    const [kotegawa, setKotegawa] = useState<InvestorProfile>(KotegawaProfile);
-    const [siebert, setSiebert] = useState<InvestorProfile>(SiebertProfile);
+    const [ackman, setAckman] = useState<InvestorProfile>(AckmanProfile);
+    const [burry, setBurry] = useState<InvestorProfile>(BurryProfile);
+    const [hwang, setHwang] = useState<InvestorProfile>(HwangProfile);
+    
 
     return (
-        <AgentContext.Provider value={{ buffett, soros, kotegawa, siebert }}>
+        <AgentContext.Provider value={{ buffett, soros, ackman, burry, hwang }}>
             {children}
         </AgentContext.Provider>
     );

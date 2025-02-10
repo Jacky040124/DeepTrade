@@ -24,6 +24,7 @@ export async function getPortfolioRecommendations(date: string, role : string, f
     // const response = await fetch(`https://deeptrade-api.onrender.com/recommendations?date=${date}&role=${role}&fund=${fund}`);
 
     console.log(date, role, fund);
+
     
     return {
         recommendations: [],
