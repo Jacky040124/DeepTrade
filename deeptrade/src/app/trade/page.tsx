@@ -109,12 +109,17 @@ export default function Home() {
 
       {/* Main Content */}
       <div className={`transition-all duration-500 ${loading ? "blur-md" : "blur-0"}`}>
-        <main className="container mx-auto px-4 py-8">
-          <Tabs defaultValue={investors[0].id} className="space-y-8">
-            {/* Asset Graph */}
-            <AssetGraph data={graphData} />
-            <PieChart investor_name={selectedInvestor} />
-            {/* Investor Profile Cards */}
+        <main className="container mx-auto px-4 py-4">
+          <Tabs defaultValue={investors[0].id} className="space-y-4">
+          <div className="flex gap-4">
+            <div className="flex-[4]">
+              <AssetGraph data={graphData} />
+            </div>
+            <div className="flex-[1]">
+              <PieChart investor_name={selectedInvestor} />
+            </div>
+          </div>
+
             {investors.map((investor) => (
               <TabsContent key={investor.id} value={investor.id}>
                 <InvestorProfile selectedInvestor={selectedInvestor} />

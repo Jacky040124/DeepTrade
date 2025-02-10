@@ -34,11 +34,11 @@ export const WarrenBuffett: InvestorProfile = {
   prompt_style: "Formal and analytical",
   explainability_preference: "detailed",
   holdings: {
-    AAPL: 915_228_702,
-    BAC: 1_032_852_006,
-    KO: 400_000_000,
-    AXP: 151_610_700,
-    MOAT: 0,
+    AAPL: 915_228,
+    BAC: 1_032_852,
+    KO: 400_000,
+    AXP: 151_610,
+    MOAT: 100_000,
   },
 };
 
@@ -75,11 +75,11 @@ export const TakashiKotegawa: InvestorProfile = {
   prompt_style: "Direct and data-centric",
   explainability_preference: "concise",
   holdings: {
-    "SONY": 250_000_000,
-    "SFTBY": 180_000_000,
-    "NTDOY": 120_000_000,
-    "HMC": 90_000_000,
-    "TM": 150_000_000
+    "SONY": 250_000,
+    "SFTBY": 180_000,
+    "NTDOY": 120_000,
+    "HMC": 90_000,
+    "TM": 150_000
   }
 };
 
@@ -96,10 +96,10 @@ export const MurielSiebert: InvestorProfile = {
   prompt_style: "Empathetic and insightful",
   explainability_preference: "detailed",
   holdings: {
-    "IBM": 300_000_000,
-    "GE": 200_000_000,
-    "KO": 150_000_000,
-    "PEP": 100_000_000,
-    "WMT": 250_000_000
+    "IBM": 300_000,
+    "GE": 200_000,
+    "KO": 150_000,
+    "PEP": 100_000,
+    "WMT": 250_000
   }
 };
