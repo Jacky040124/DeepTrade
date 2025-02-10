@@ -74,8 +74,9 @@ export default function Home() {
     setLoading(true);
     setQuarter(incrementQuarter(quarter));
     const dateStr = quarterToDate(quarter);
+    console.log("investors", investors);
 
-    for (const investor of investorProfiles) {
+    for (const investor of investors) {
       const formattedName = formatInvestorName(investor.name);
       const res = await getPortfolioRecommendations(dateStr, formattedName, 1000000);
 
@@ -104,7 +105,7 @@ export default function Home() {
         reasoning: rec.reasoning,
       }));
 
-      const newHoldings = handleHoldings(investor.holdings, actions);
+      const newHoldings = handleHoldings(investor.profile.holdings, actions);
       const newFund = res.cash_after_transactions;
 
       switch (formattedName) {
