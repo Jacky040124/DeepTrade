@@ -52,18 +52,14 @@ export default function Home() {
       <nav className="border-b">
         <div className="container mx-auto px-4 py-4 flex items-center">
           <Brain className="h-6 w-6 text-primary" />
-          <span className="text-xl font-bold ml-2">DeepTrade</span>
+          <span className="text-xl font-bold ml-2">HedgeFun</span>
         </div>
       </nav>
 
       <div className="container mx-auto px-4 py-8">
         <div className="flex items-center justify-between pb-8">
           <h1 className="text-4xl font-bold">Choose Your Investors</h1>
-          <Button
-            onClick={handleContinue}
-            disabled={selectedInvestor.length === 0}
-            className="flex items-center"
-          >
+          <Button onClick={handleContinue} disabled={selectedInvestor.length === 0} className="flex items-center">
             Continue
             <User className="ml-2 h-4 w-4" />
           </Button>
@@ -87,7 +83,7 @@ export default function Home() {
           <Card className="mt-8">
             <CardHeader>
               <CardTitle>{currentInvestor.name}</CardTitle>
-            </CardHeader> 
+            </CardHeader>
             <CardContent>
               <CharacteristicsRadarChart investor_name={currentInvestor.name}></CharacteristicsRadarChart>
             </CardContent>

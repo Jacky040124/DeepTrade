@@ -154,7 +154,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <Brain className="h-6 w-6 text-primary" />
-            <span className="text-xl font-bold">DeepTrade</span>
+            <span className="text-xl font-bold">HedgeFun-R1</span>
             <span className="text-sm text-muted-foreground ml-4">{quarter}</span>
           </div>
           <div className="flex items-center space-x-4">
