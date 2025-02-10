@@ -103,7 +103,58 @@ export default function CharacteristicsRadarChart({
     <Card className="mb-8 max-w-[800px]">
       <CardHeader><strong>Description</strong></CardHeader>
       <CardContent>
-        {investor.description}
+        <div className="space-y-6">
+          <div>
+            <h3 className="text-xl font-bold mb-3">Overview</h3>
+            <p className="text-muted-foreground text-base leading-relaxed">
+              {investor.description}
+            </p>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-3">Trading Strategy</h3>
+            <div className="space-y-3">
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Entry Criteria</h4>
+                <p className="text-muted-foreground text-base leading-relaxed">
+                  {investor.entry_criteria}
+                </p>
+              </div>
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Exit Criteria</h4>
+                <p className="text-muted-foreground text-base leading-relaxed">
+                  {investor.exit_criteria}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <h3 className="text-xl font-bold mb-3">Trading Characteristics</h3>
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Trading Discipline</h4>
+                <p className="text-muted-foreground capitalize">{investor.trading_discipline}</p>
+              </div>
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Risk Tolerance</h4>
+                <p className="text-muted-foreground capitalize">{investor.risk_tolerance}</p>
+              </div>
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Patience</h4>
+                <p className="text-muted-foreground capitalize">{investor.patience}</p>
+              </div>
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Adaptability</h4>
+                <p className="text-muted-foreground capitalize">{investor.adaptability}</p>
+              </div>
+              <div>
+                <h4 className="text-base font-semibold text-foreground mb-1">Analytical Ability</h4>
+                <p className="text-muted-foreground capitalize">{investor.analytical_ability}</p>
+              </div>
+            </div>
+          </div>
+        </div>
       </CardContent>
     </Card>
   </div>

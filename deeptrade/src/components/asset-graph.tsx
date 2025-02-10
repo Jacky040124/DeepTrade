@@ -14,19 +14,32 @@ interface AssetGraphProps {
 }
 
 export function AssetGraph({ data }: AssetGraphProps) {
+  const quarterlyLabels = [
+    "2020-Q1", "2020-Q2", "2020-Q3", "2020-Q4",
+    "2021-Q1", "2021-Q2", "2021-Q3", "2021-Q4",
+    "2022-Q1", "2022-Q2", "2022-Q3", "2022-Q4",
+    "2023-Q1", "2023-Q2", "2023-Q3", "2023-Q4",
+  ];
+
+  // Map the data values to the quarterly labels
+  const formattedData = data.map((point, index) => ({
+    time: quarterlyLabels[index] || `Q${index + 1}`,
+    value: point.value
+  }));
+
   return (
     <Card className="mb-8">
       <CardHeader>
         <CardTitle className="flex items-center">
           <TrendingUp className="h-5 w-5 mr-2" />
-          Asset Performance
+          Asset
         </CardTitle>
       </CardHeader>
       <CardContent>
         <div className="h-[400px]">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
-              data={data}
+              data={formattedData}
               margin={{
                 top: 5,
                 right: 10,

@@ -87,7 +87,7 @@ export default function Home() {
           <Card className="mt-8">
             <CardHeader>
               <CardTitle>{currentInvestor.name}</CardTitle>
-            </CardHeader>
+            </CardHeader> 
             <CardContent>
               <CharacteristicsRadarChart investor_name={currentInvestor.name}></CharacteristicsRadarChart>
             </CardContent>

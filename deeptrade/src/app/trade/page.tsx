@@ -17,13 +17,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Sample data for the graph (keep this until you have real data)
 const graphData = [
-  { time: "09:00", value: 4000 },
-  { time: "10:00", value: 3000 },
-  { time: "11:00", value: 2000 },
-  { time: "12:00", value: 2780 },
-  { time: "13:00", value: 1890 },
-  { time: "14:00", value: 2390 },
-  { time: "15:00", value: 3490 },
+  { time: "09:00", value: 1000000 },
+  { time: "10:00", value: 920000 },
+  { time: "11:00", value: 840000 },
+  { time: "12:00", value: 1110000 },
+  { time: "13:00", value: 760000 },
+  { time: "14:00", value: 960000 },
+  { time: "15:00", value: 1400000 },
 ];
 
 // Create a type for our UI-specific investor data
@@ -37,19 +37,21 @@ export type InvestorDisplay = {
 export default function Home() {
   const { buffett, soros, ackman, burry, hwang, setBuffett, setSoros, setAckman, setBurry, setHwang } = useAgent();
   const investorProfiles: InvestorProfileType[] = [buffett, soros, ackman, burry, hwang];
+  const searchParams = useSearchParams();
+  const selectedNames = searchParams.getAll("names");
 
-  const investors: InvestorDisplay[] = investorProfiles.map(profile => ({
-    id: profile.name.toLowerCase().replace(/\s+/g, '-'),
-    name: profile.name,
-    image: profile.image,
-    profile: profile,
-  }));
-  
+  const investors: InvestorDisplay[] = investorProfiles
+    .filter(profile => selectedNames.includes(profile.name))
+    .map(profile => ({
+      id: profile.name.toLowerCase().replace(/\s+/g, '-'),
+      name: profile.name,
+      image: profile.image,
+      profile: profile,
+    }));
+
   const [selectedInvestor, setSelectedInvestor] = useState<string>(investors[0].name);
   const [quarter, setQuarter] = useState<string>("2020-Q1");
   const [loading, setLoading] = useState(false);
-  const searchParams = useSearchParams();
-  const selectedNames = searchParams.getAll("names");
 
   const displayData = (() => {
     switch (selectedInvestor) {
@@ -76,30 +78,30 @@ export default function Home() {
     for (const investor of investorProfiles) {
       const formattedName = formatInvestorName(investor.name);
       const res = await getPortfolioRecommendations(dateStr, formattedName, 1000000);
-      
+
       const info: Info = {
         analysis: res.analysis,
         key_metrics: res.key_metrics,
         risks: res.risks,
         portfolio_impact: res.portfolio_impact,
         cash_after_transactions: res.cash_after_transactions,
-        actions: res.recommendations.map(rec => ({
+        actions: res.recommendations.map((rec) => ({
           symbol: rec.symbol,
           action: rec.action,
           quantity: rec.quantity,
           price_per_share: rec.price_per_share,
           total_transaction_value: rec.total_transaction_value,
-          reasoning: rec.reasoning
-        }))
+          reasoning: rec.reasoning,
+        })),
       };
 
-      const actions = res.recommendations.map(rec => ({
+      const actions = res.recommendations.map((rec) => ({
         symbol: rec.symbol,
         action: rec.action,
         quantity: rec.quantity,
         price_per_share: rec.price_per_share,
         total_transaction_value: rec.total_transaction_value,
-        reasoning: rec.reasoning
+        reasoning: rec.reasoning,
       }));
 
       const newHoldings = handleHoldings(investor.holdings, actions);
@@ -128,7 +130,7 @@ export default function Home() {
 
   function handleHoldings(holdings: Holdings, actions: any[]) {
     const updatedHoldings = { ...holdings };
-    
+
     for (const action of actions) {
       if (action.action === "BUY") {
         updatedHoldings[action.symbol] = (updatedHoldings[action.symbol] || 0) + action.quantity;
@@ -141,7 +143,7 @@ export default function Home() {
       }
       // HOLD action doesn't modify holdings
     }
-    
+
     return updatedHoldings;
   }
 
@@ -182,7 +184,7 @@ export default function Home() {
 
             {investors.map((investor) => (
               <TabsContent key={investor.id} value={investor.id}>
-                <InvestorProfile selectedInvestor={selectedInvestor} firstInvestor={selectedNames[0]}/>
+                <InvestorProfile selectedInvestor={selectedInvestor} firstInvestor={selectedNames[0]} />
               </TabsContent>
             ))}
           </Tabs>
@@ -209,7 +211,9 @@ export default function Home() {
 
                     <div className="bg-muted/30 p-4 rounded-lg">
                       <h3 className="text-lg font-semibold mb-2">Cash Position</h3>
-                      <p className="text-xl font-bold">${displayData.last_quarter.cash_after_transactions.toLocaleString()}</p>
+                      <p className="text-xl font-bold">
+                        ${displayData.last_quarter.cash_after_transactions.toLocaleString()}
+                      </p>
                     </div>
                   </div>
 
@@ -219,7 +223,9 @@ export default function Home() {
                       <h3 className="text-lg font-semibold mb-2">Key Metrics</h3>
                       <ul className="list-disc list-inside space-y-1">
                         {displayData.last_quarter.key_metrics.map((metric, index) => (
-                          <li key={index} className="text-sm text-muted-foreground">{metric}</li>
+                          <li key={index} className="text-sm text-muted-foreground">
+                            {metric}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -228,7 +234,9 @@ export default function Home() {
                       <h3 className="text-lg font-semibold mb-2">Risks</h3>
                       <ul className="list-disc list-inside space-y-1">
                         {displayData.last_quarter.risks.map((risk, index) => (
-                          <li key={index} className="text-sm text-muted-foreground">{risk}</li>
+                          <li key={index} className="text-sm text-muted-foreground">
+                            {risk}
+                          </li>
                         ))}
                       </ul>
                     </div>
@@ -244,13 +252,15 @@ export default function Home() {
                         <div className="flex items-center justify-between">
                           <div>
                             <span className="font-medium">{action.symbol}</span>
-                            <span className={`ml-2 px-2 py-0.5 rounded text-xs ${
-                              action.action === "BUY" 
-                                ? "bg-green-100 text-green-800" 
-                                : action.action === "SELL" 
-                                ? "bg-red-100 text-red-800" 
-                                : "bg-yellow-100 text-yellow-800"
-                            }`}>
+                            <span
+                              className={`ml-2 px-2 py-0.5 rounded text-xs ${
+                                action.action === "BUY"
+                                  ? "bg-green-100 text-green-800"
+                                  : action.action === "SELL"
+                                  ? "bg-red-100 text-red-800"
+                                  : "bg-yellow-100 text-yellow-800"
+                              }`}
+                            >
                               {action.action}
                             </span>
                           </div>
