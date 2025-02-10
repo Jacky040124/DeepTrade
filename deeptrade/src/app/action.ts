@@ -2,7 +2,7 @@
 
 type Recommendation = {
   symbol: string;
-  action: 'BUY' | 'HOLD' | 'SELL';
+  action: "BUY" | "HOLD" | "SELL";
   quantity: number;
   price_per_share: number;
   total_transaction_value: number;
@@ -18,20 +18,16 @@ type PortfolioRecommendation = {
   cash_after_transactions: number;
 };
 
-// I wan to trade at 2020-1-1
-// role is the first_last name of the investor all lowercase
-export async function getPortfolioRecommendations(date: string, role : string, fund: number): Promise<PortfolioRecommendation> {
-    // const response = await fetch(`https://deeptrade-api.onrender.com/recommendations?date=${date}&role=${role}&fund=${fund}`);
-
-    console.log(date, role, fund);
-
+export async function getPortfolioRecommendations(
+  date: string,
+  role: string,
+  fund: number
+): Promise<PortfolioRecommendation> {
     
-    return {
-        recommendations: [],
-        key_metrics: [],
-        analysis: "",
-        risks: [],
-        portfolio_impact: "",
-        cash_after_transactions: 0
-    }
+  console.log(date, role, fund);
+  const response = await fetch(`http://127.0.0.1:5000/trade?date=${date}&role=${role}&funds=${fund}`);
+  const res = await response.json();
+  console.log(res);
+
+  return res;
 }

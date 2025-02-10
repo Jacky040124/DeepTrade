@@ -25,9 +25,10 @@ export function InvestorSelector({
     <div className="flex items-center gap-2">
       {investors.map((investor) => {
         const isSelected = selectedId === investor.id;
+        const uniqueId = investor.name.toLowerCase().replace(/\s+/g, '-'); // Create unique ID from full name
         return (
           <button
-            key={investor.id}
+            key={uniqueId}
             onClick={() => handleInvestorChange(investor)}
             className={`flex items-center gap-2 px-3 py-1.5 rounded-full transition-all 
               ${isSelected ? "bg-gray-300" : "hover:bg-muted/50"}`}

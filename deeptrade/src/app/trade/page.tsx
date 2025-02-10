@@ -6,21 +6,13 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { Brain, Loader2 } from "lucide-react";
 import { InvestorProfile } from "@/components/investor-profile";
 import { AssetGraph } from "@/components/asset-graph";
-import {
-  WarrenBuffett,
-  GeorgeSoros,
-  TakashiKotegawa,
-  MurielSiebert,
-  BillAckman,
-  MichaelBurry,
-  BillHwang,
-  type InvestorProfile as InvestorProfileType,
-} from "@/lib/types/Investor";
 import { useSearchParams } from "next/navigation";
 import { InvestorSelector } from "@/components/investor-selector";
 import PieChart from "../../components/PieCahrt";
 import { getPortfolioRecommendations } from "../action";
-import { incrementQuarter } from "@/lib/utils/date";
+import { incrementQuarter, quarterToDate, formatInvestorName } from "@/lib/utils/date";
+import { useAgent } from "@/app/hooks/useAgent";
+import { InvestorProfile as InvestorProfileType, Info, Holdings } from "@/lib/types/Investor";
 
 // Sample data for the graph (keep this until you have real data)
 const graphData = [
@@ -41,72 +33,112 @@ export type InvestorDisplay = {
   profile: InvestorProfileType;
 };
 
-export default function Home() {
-  // Map the investor profiles to our display format
-  const investors: InvestorDisplay[] = [
-    {
-      id: "buffett",
-      name: WarrenBuffett.name,
-      image: WarrenBuffett.image,
-      profile: WarrenBuffett,
-    },
-    {
-      id: "soros",
-      name: GeorgeSoros.name,
-      image: GeorgeSoros.image,
-      profile: GeorgeSoros,
-    },
-    {
-      id: "kotegawa",
-      name: TakashiKotegawa.name,
-      image: TakashiKotegawa.image,
-      profile: TakashiKotegawa,
-    },
-    {
-      id: "siebert",
-      name: MurielSiebert.name,
-      image: MurielSiebert.image,
-      profile: MurielSiebert,
-    },
-    {
-      id: "ackman",
-      name: BillAckman.name,
-      image: BillAckman.image,
-      profile: BillAckman,
-    },
-    {
-      id: "burry",
-      name: MichaelBurry.name,
-      image: MichaelBurry.image,
-      profile: MichaelBurry,
-    },
-    {
-      id: "hwang",
-      name: BillHwang.name,
-      image: BillHwang.image,
-      profile: BillHwang,
-    },
-  ];
 
-  const stock_list = ["AAPL", "GOOG", "MSFT", "AMZN", "TSLA", "NVDA", "META"];
+
+export default function Home() {
+  const { buffett, soros, ackman, burry, hwang, setBuffett, setSoros, setAckman, setBurry, setHwang } = useAgent();
+  const investorProfiles: InvestorProfileType[] = [buffett, soros, ackman, burry, hwang];
+
+  const investors: InvestorDisplay[] = investorProfiles.map(profile => ({
+    id: profile.name.toLowerCase().replace(/\s+/g, '-'),
+    name: profile.name,
+    image: profile.image,
+    profile: profile,
+  }));
+  
   const [selectedInvestor, setSelectedInvestor] = useState<string>(investors[0].name);
   const [quarter, setQuarter] = useState<string>("2020-Q1");
   const [loading, setLoading] = useState(false);
   const searchParams = useSearchParams();
   const selectedNames = searchParams.getAll("names");
 
-  const handleInvestorChange = (investor: InvestorDisplay) => {
-    setSelectedInvestor(investor.name);
-  };
+  
 
   async function handleNextQuarter() {
     setLoading(true);
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     setQuarter(incrementQuarter(quarter));
-    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000);
-    console.log(recommendations);
+    const dateStr = quarterToDate(quarter);
+
+    for (const investor of investorProfiles) {
+      const formattedName = formatInvestorName(investor.name);
+      const res = await getPortfolioRecommendations(dateStr, formattedName, 1000000);
+      
+      const info: Info = {
+        analysis: res.analysis,
+        key_metrics: res.key_metrics,
+        risks: res.risks,
+        portfolio_impact: res.portfolio_impact,
+        cash_after_transactions: res.cash_after_transactions,
+        actions: res.recommendations.map(rec => ({
+          symbol: rec.symbol,
+          action: rec.action,
+          quantity: rec.quantity,
+          price_per_share: rec.price_per_share,
+          total_transaction_value: rec.total_transaction_value,
+          reasoning: rec.reasoning
+        }))
+      };
+
+      const actions = res.recommendations.map(rec => ({
+        symbol: rec.symbol,
+        action: rec.action,
+        quantity: rec.quantity,
+        price_per_share: rec.price_per_share,
+        total_transaction_value: rec.total_transaction_value,
+        reasoning: rec.reasoning
+      }));
+
+      const newHoldings = handleHoldings(investor.holdings, actions);
+      const newFund = res.cash_after_transactions;
+
+      switch (formattedName) {
+        case "warren_buffett":
+          setBuffett({ ...buffett, holdings: newHoldings, fund: newFund, last_quarter: info });
+          break;
+        case "george_soros":
+          setSoros({ ...soros, holdings: newHoldings, fund: newFund, last_quarter: info });
+          break;
+        case "bill_ackman":
+          setAckman({ ...ackman, holdings: newHoldings, fund: newFund, last_quarter: info });
+          break;
+        case "michael_burry":
+          setBurry({ ...burry, holdings: newHoldings, fund: newFund, last_quarter: info });
+          break;
+        case "bill_hwang":
+          setHwang({ ...hwang, holdings: newHoldings, fund: newFund, last_quarter: info });
+          break;
+      }
+    }
     setLoading(false);
   }
+
+  function handleHoldings(holdings: Holdings, actions: any[]) {
+    const updatedHoldings = { ...holdings };
+    
+    for (const action of actions) {
+      if (action.action === "BUY") {
+        updatedHoldings[action.symbol] = (updatedHoldings[action.symbol] || 0) + action.quantity;
+      } else if (action.action === "SELL") {
+        const currentHolding = updatedHoldings[action.symbol] || 0;
+        updatedHoldings[action.symbol] = Math.max(0, currentHolding - action.quantity);
+        if (updatedHoldings[action.symbol] === 0) {
+          delete updatedHoldings[action.symbol];
+        }
+      }
+      // HOLD action doesn't modify holdings
+    }
+    
+    return updatedHoldings;
+  }
+
+
+
+  // display analysis
+  // display key metrics
+  // display risks
+  // display portfolio impact
+  // display cash after transactions
+  // display actions
 
   return (
     <div className="min-h-screen bg-background">
@@ -121,7 +153,7 @@ export default function Home() {
           <div className="flex items-center space-x-4">
             <InvestorSelector
               investors={investors.filter((investor) => selectedNames.includes(investor.name))}
-              onInvestorChange={handleInvestorChange}
+              onInvestorChange={(investor) => setSelectedInvestor(investor.name)}
             />
             <Button variant="ghost" onClick={handleNextQuarter} disabled={loading}>
               Next Quarter
