@@ -9,12 +9,16 @@ import { useState } from "react";
 
 interface InvestorProfileProps {
   selectedInvestor: string;
+  firstInvestor: string;
 }
 
-export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
+export function InvestorProfile({ selectedInvestor, firstInvestor}: InvestorProfileProps) {
   const { buffett, soros, ackman, burry, hwang} = useAgent();
   
   const displayData = (() => {
+    if (selectedInvestor == null) {
+      selectedInvestor = firstInvestor;
+    }
     switch (selectedInvestor) {
       case "Warren Buffett":
         return buffett;

@@ -37,6 +37,10 @@ export type InvestorProfile = {
   explainability_preference: ExplainabilityPreference;
   holdings: Holdings;
   last_quarter: Info;
+  trading_discipline: string;
+  patience: string;
+  adaptability: string;
+  analytical_ability: string;
 };
 
 
@@ -65,6 +69,10 @@ export const WarrenBuffett: InvestorProfile = {
     cash_after_transactions: 0,
     actions: [],
   },
+  trading_discipline: "high",
+  patience: "high",
+  adaptability: "low",
+  analytical_ability: "high",
 };
 
 
@@ -90,32 +98,10 @@ export const GeorgeSoros: InvestorProfile = {
     cash_after_transactions: 0,
     actions: [],
   },
-};
-
-
-export const TakashiKotegawa: InvestorProfile = {
-  name: "Takashi Kotegawa",
-  image: "/takashi.webp",
-  fund: 1000000,
-  description:
-    "A dynamic investor with a keen eye for emerging trends in Japan's tech sector, Takashi Kotegawa blends technical analysis with market sentiment to capitalize on fast-moving opportunities.",
-  investment_style: "momentum",
-  risk_tolerance: "high",
-  entry_criteria:
-    "Breakout above key resistance levels, significant surge in trading volume, confirmation from technical indicators (e.g., MACD, RSI), strong price momentum across multiple timeframes, positive trend signals from chart patterns",
-  exit_criteria:
-    "Price drops below established support levels, technical indicators suggest overbought conditions, excessive volatility observed, trailing stop loss is triggered, pre-determined profit target reached",
-  prompt_style: "Direct and data-centric",
-  explainability_preference: "concise",
-  holdings: {},
-  last_quarter: {
-    analysis: "",
-    key_metrics: [],
-    risks: [],
-    portfolio_impact: "",
-    cash_after_transactions: 0,
-    actions: [],
-  },
+  trading_discipline: "medium",
+  patience: "medium",
+  adaptability: "high",
+  analytical_ability: "high",
 };
 
 export const BillAckman: InvestorProfile = {
@@ -140,11 +126,15 @@ export const BillAckman: InvestorProfile = {
     cash_after_transactions: 0,
     actions: [],
   },
+  trading_discipline: "high",
+  patience: "high",
+  adaptability: "medium",
+  analytical_ability: "high",
 };
 
 export const MichaelBurry: InvestorProfile = {
   name: "Michael Burry",
-  image: "/burry.jpg",
+  image: "/burry2.jpg",
   fund: 1000000,
   description: "A deep-value contrarian investor famous for spotting financial bubbles and crises.",
   investment_style: "value", // Burry focuses on deep-value investing
@@ -164,6 +154,10 @@ export const MichaelBurry: InvestorProfile = {
     cash_after_transactions: 0,
     actions: [],
   },
+  trading_discipline: "medium",
+  patience: "high",
+  adaptability: "low",
+  analytical_ability: "high",
 };
 
 export const BillHwang: InvestorProfile = {
@@ -188,4 +182,8 @@ export const BillHwang: InvestorProfile = {
     cash_after_transactions: 0,
     actions: [],
   },
+  trading_discipline: "low",
+  patience: "medium",
+  adaptability: "high",
+  analytical_ability: "medium",
 };

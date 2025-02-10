@@ -177,7 +177,7 @@ export default function Home() {
 
             {investors.map((investor) => (
               <TabsContent key={investor.id} value={investor.id}>
-                <InvestorProfile selectedInvestor={selectedInvestor} />
+                <InvestorProfile selectedInvestor={selectedInvestor} firstInvestor={selectedNames[0]}/>
               </TabsContent>
             ))}
           </Tabs>
