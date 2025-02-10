@@ -1,4 +1,4 @@
-import { PieChart as RechartsPieChart, Pie} from "recharts";
+import { PieChart as RechartsPieChart, Pie, Cell } from "recharts";
 import { useAgent } from "@/app/hooks/useAgent";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
@@ -38,8 +38,24 @@ export default function PieChart({ investor_name }: PieChartProps) {
       </CardHeader>
       <CardContent> 
         <RechartsPieChart width={400} height={400}>
-        <Pie data={holdings} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={50} fill="#404040" label={({ name, value }) => `${name}: ${(value / 1_000).toFixed(1)}K`}/>
-      </RechartsPieChart>
+          <Pie 
+            data={holdings} 
+            dataKey="value" 
+            nameKey="name" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={130} 
+            fill="#404040" 
+            label={({ name }) => name}
+          >
+            {holdings.map((entry, index) => (
+              <Cell 
+                key={`cell-${index}`} 
+                fill={`hsl(var(--chart-${(index % 5) + 1}))`} 
+              />
+            ))}
+          </Pie>
+        </RechartsPieChart>
       </CardContent>
       </Card>
   );
