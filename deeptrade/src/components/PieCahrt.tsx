@@ -7,22 +7,25 @@ interface PieChartProps {
 }
 
 export default function PieChart({ investor_name }: PieChartProps) {
-  const { buffett, soros, kotegawa, siebert } = useAgent();
+  const { buffett, soros,  ackman, burry, hwang} = useAgent();
   
-  const investor = (() => {
-    switch (investor_name) {
-      case "Warren Buffett":
-        return buffett;
-      case "George Soros":
-        return soros;
-      case "Takashi Kotegawa":
-        return kotegawa;
-      case "Muriel Siebert":
-        return siebert;
-      default:
-        return buffett; // Handle cases where no match is found
-    }
-  })();
+    // Select the correct investor based on the provided investor_name
+    const investor = (() => {
+      switch (investor_name) {
+        case "Warren Buffett":
+          return buffett;
+        case "George Soros":
+          return soros;
+        case "Bill Ackman":
+          return ackman;
+        case "Michael Burry":
+          return burry;
+        case "Bill Hwang":
+          return hwang;
+        default:
+          return buffett; // Fallback in case of no match
+      }
+    })();
 
   const holdings = Object.entries(investor.holdings).map(([symbol, shares]) => ({
     name: symbol,

@@ -12,7 +12,7 @@ interface InvestorProfileProps {
 }
 
 export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
-  const { buffett, soros, kotegawa, siebert } = useAgent();
+  const { buffett, soros, ackman, burry, hwang} = useAgent();
   
   const displayData = (() => {
     switch (selectedInvestor) {
@@ -20,12 +20,14 @@ export function InvestorProfile({ selectedInvestor }: InvestorProfileProps) {
         return buffett;
       case "George Soros":
         return soros;
-      case "Takashi Kotegawa":
-        return kotegawa;
-      case "Muriel Siebert":
-        return siebert;
+      case "Bill Ackman":
+        return ackman;
+      case "Michael Burry":
+        return burry;
+      case "Bill Hwang":
+        return hwang;
       default:
-        return buffett; // Handle cases where no match is found
+        return buffett; // Fallback in case of no match
     }
   })();
   

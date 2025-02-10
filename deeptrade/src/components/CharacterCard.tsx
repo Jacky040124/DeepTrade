@@ -22,17 +22,17 @@ export function CharacterCard({
     <div
       onClick={() => onSelect(id)}
       className={cn(
-        "cursor-pointer rounded-lg p-4 border-2 transition-all duration-200",
+        "cursor-pointer rounded-lg p-4 border-2 transition-all duration-200", // Added w-48 here
         "hover:shadow-lg transform hover:-translate-y-1",
         "flex flex-col items-center",
-        "bg-gray-900",
+        "bg-gray-500",
         isSelected
-          ? "border-purple-500 shadow-purple-500/20 shadow-lg scale-[1.02]"
-          : "border-gray-800 hover:border-purple-500/50"
-      )}
+          ? "border-black shadow-black/20 shadow-lg scale-[1.02]"
+          : "border-white hover:border-black/50"
+      )}      
     >
       <div className="relative w-24 h-24 mb-3">
-        <div className="absolute inset-0 rounded-full overflow-hidden border-2 border-gray-700">
+        <div className="absolute inset-0 rounded-full overflow-hidden border-2 border-white-200">
           <Image
             src={image}
             alt={name}

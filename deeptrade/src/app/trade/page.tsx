@@ -11,6 +11,9 @@ import {
   GeorgeSoros,
   TakashiKotegawa,
   MurielSiebert,
+  BillAckman,
+  MichaelBurry,
+  BillHwang,
   type InvestorProfile as InvestorProfileType,
 } from "@/lib/types/Investor";
 import { useSearchParams } from "next/navigation";
@@ -64,6 +67,24 @@ export default function Home() {
       name: MurielSiebert.name,
       image: MurielSiebert.image,
       profile: MurielSiebert,
+    },
+    {
+      id: "ackman",
+      name: BillAckman.name,
+      image: BillAckman.image,
+      profile: BillAckman,
+    },
+    {
+      id: "burry",
+      name: MichaelBurry.name,
+      image: MichaelBurry.image,
+      profile: MichaelBurry,
+    },
+    {
+      id: "hwang",
+      name: BillHwang.name,
+      image: BillHwang.image,
+      profile: BillHwang,
     },
   ];
 
