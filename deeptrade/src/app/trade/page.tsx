@@ -103,7 +103,7 @@ export default function Home() {
     setLoading(true);
     await new Promise((resolve) => setTimeout(resolve, 2000));
     setQuarter(incrementQuarter(quarter));
-    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000, stock_list);
+    const recommendations = await getPortfolioRecommendations(quarter, selectedInvestor, 1000000);
     console.log(recommendations);
     setLoading(false);
   }
